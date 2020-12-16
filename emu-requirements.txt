@@ -1,0 +1,3 @@
+asyncio==3.4.3
+aioserial==1.3.0
+requests==2.22.0
