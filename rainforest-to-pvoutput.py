@@ -9,13 +9,14 @@ __email__       = "email@pavel.lu"
 __status__      = "Development"
 
 import logging
-from logging.handlers import RotatingFileHandler
 import time
 import os
 import sys
 import asyncio
 import aioserial
 import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 # pvoutput SID and KEY are mandatory parameters
 # default values can be overridden by the defined environment variables
@@ -83,8 +84,13 @@ async def emu_serial_read(aioserial_instance: aioserial.AioSerial):
 # HTTP post method
 def http_post (url, xml_data):
     # HTTP post to pvoutput
+    http = requests.Session()
+    retry = Retry(connect=10, backoff_factor=0.5)
+    adapter = HTTPAdapter(max_retries=retry)
+    http.mount('http://', adapter)
+    http.mount('https://', adapter)
     headers = {'Content-Type': 'application/xml'}
-    res = requests.post(url, data=xml_data, headers=headers).text
+    res = http.post(url, data=xml_data, headers=headers).text
     logging.info(res)
     return res
 
