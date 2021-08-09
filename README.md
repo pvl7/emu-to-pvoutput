@@ -39,16 +39,16 @@ RF_PVOUTPUT_SID=<sid> RF_PVOUTPUT_KEY=<key> docker run --restart unless-stopped 
 ```
 ### Run as a systemd service
 
-Install dependencies first
-```
-sudo apt-get -y install python-setuptools python3-pip
-sudo pip3 install -r emu-requirements.txt
-```
-
 Clone the repository
 ```
 cd /opt
 sudo git clone https://github.com/pvl7/emu-to-pvoutput
+```
+
+Install Python dependencies
+```
+sudo apt-get -y install python-setuptools python3-pip
+sudo pip3 install -r /opt/emu-to-pvoutput/emu-requirements.txt
 ```
 
 Create systemd service configuration file
