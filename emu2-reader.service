@@ -1,0 +1,16 @@
+[Unit]
+Description=Reads data from an EMU2 device and uploads it to pvoutput.org
+After=network-online.target
+Wants=network-online.target systemd-networkd-wait-online.service
+
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
+[Service]
+EnvironmentFile=/opt/emu-to-pvoutput/environment
+Restart=on-failure
+RestartSec=5s
+ExecStart=/opt/emu-to-pvoutput/startup.sh
+
+[Install]
+WantedBy=multi-user.target

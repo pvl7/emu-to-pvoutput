@@ -32,7 +32,38 @@ docker build . -t rainforest-to-pvoutput:latest
 
 ## Usage
 
+### Run in a docker container
+
 ```
 RF_PVOUTPUT_SID=<sid> RF_PVOUTPUT_KEY=<key> docker run --restart unless-stopped -d -e RF_PVOUTPUT_SID -e RF_PVOUTPUT_KEY --device "/dev/ttyACM0:/dev/ttyACM0" --name emu-to-pvoutput emu-to-pvoutput:latest
 ```
+### Run as a systemd service
 
+Install dependencies first
+```
+sudo apt-get -y install python-setuptools python3-pip
+sudo pip3 install -r emu-requirements.txt
+```
+
+Clone the repository
+```
+cd /opt
+sudo git clone https://github.com/pvl7/emu-to-pvoutput
+```
+
+Create systemd service configuration file
+```
+cat /opt/emu-to-pvoutput/emu2-reader.service | sudo tee /etc/systemd/system/emu2-reader.service
+```
+
+Start the service
+```
+sudo systemctl daemon-reload
+sudo systemctl enable emu2-reader
+sudo systemctl start emu2-reader
+```
+
+Check if the service is online
+```
+journalctl -xefu emu2-reader
+```
