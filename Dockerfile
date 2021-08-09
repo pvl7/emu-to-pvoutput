@@ -1,7 +1,7 @@
 FROM faucet/python3:latest
-MAINTAINER Pavel Lu "email@pavel.lu"
+LABEL Pavel Lu "email@pavel.lu"
 
-WORKDIR /rainforest
+WORKDIR /opt/emu-to-pvoutput
 
 # copy the dependencies file to the working directory
 COPY emu-requirements.txt .
@@ -13,4 +13,4 @@ RUN pip3 install -r emu-requirements.txt
 COPY rainforest-to-pvoutput.py .
 COPY startup.sh .
 
-ENTRYPOINT ["sh", "/rainforest/startup.sh"]
+ENTRYPOINT ["sh", "/opt/emu-to-pvoutput/startup.sh"]
